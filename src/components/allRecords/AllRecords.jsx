@@ -52,7 +52,7 @@ const AllRecords = () => {
             <div className="absolute hidden items-center justify-center w-full h-full bg-gray-700/80 group-hover:flex">
               <button onClick={() => deleteRecord(item.id)} type="button" className="bg-white p-2 rounded">Delete Record</button>
             </div>
-            <img className="w-40 h-40 object-cover" src={item.image_data} alt="album cover" />
+            <img className="w-full h-44 object-cover" src={item.image_data} alt="album cover" />
             <div className="ml-4">
               <p>{item.title}</p>
               <p>{item.artist}</p>
