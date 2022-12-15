@@ -11,7 +11,7 @@ const AllRecords = () => {
   const [selected, setSelected] = useState('latest');
 
   const deleteRecord = (id) => {
-    axios.delete(`http://localhost:3000/api/v1/record/${id}`).then((response) => {
+    axios.delete(`https://discogs-clone.onrender.com/api/v1/record/${id}`).then((response) => {
       if (response.data.status === 'ok') {
         const newRecords = result.filter((record) => record.id !== id);
         setResult(newRecords);

@@ -26,7 +26,7 @@ const CreateForm = () => {
     record.append('image_data', picture);
     await axios({
       method: 'post',
-      url: 'http://localhost:3000/api/v1/record',
+      url: 'https://discogs-clone.onrender.com/api/v1/record',
       data: record,
     }).then((response) => {
       if (response.data.status === 'created') {
