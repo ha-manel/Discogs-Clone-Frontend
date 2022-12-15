@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import RecordsContext from '../../context/recordsContext';
 
 const CreateForm = () => {
@@ -11,7 +12,9 @@ const CreateForm = () => {
   const [artist, setArtist] = useState('');
   const [year, setYear] = useState('');
   const [genre, setGenre] = useState('');
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState(null);
+
+  const [created, setCreated] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,12 +31,17 @@ const CreateForm = () => {
     }).then((response) => {
       if (response.data.status === 'created') {
         const newRecords = [...result, response.data.record];
-        console.log(response.data.record);
         setResult(newRecords);
         setRecords(newRecords);
+        setCreated(true);
       }
+      return true;
     });
   };
+
+  if (created) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="w-full flex flex-col items-center mt-10">
