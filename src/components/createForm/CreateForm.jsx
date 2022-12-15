@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import RecordsContext from '../../context/recordsContext';
 
 const CreateForm = () => {
@@ -14,7 +13,7 @@ const CreateForm = () => {
   const [genre, setGenre] = useState('');
   const [picture, setPicture] = useState(null);
 
-  const [created, setCreated] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,18 +29,22 @@ const CreateForm = () => {
       data: record,
     }).then((response) => {
       if (response.data.status === 'created') {
+        setErrors([]);
+        document.querySelector('#success').classList.remove('invisible');
         const newRecords = [...result, response.data.record];
         setResult(newRecords);
         setRecords(newRecords);
-        setCreated(true);
+        setTitle('');
+        setArtist('');
+        setYear('');
+        setGenre('');
       }
       return true;
+    }).catch((response) => {
+      setErrors(response.response.data.errors);
+      document.querySelector('#success').classList.add('invisible');
     });
   };
-
-  if (created) {
-    return <Navigate to="/" replace />;
-  }
 
   return (
     <div className="w-full flex flex-col items-center mt-10">
@@ -55,6 +58,12 @@ const CreateForm = () => {
         <input type="file" accept="image/*" multiple={false} className="my-2 py-2 px-2 border border-gray-400 rounded" onChange={(e) => setPicture(e.target.files[0])} />
         <input type="submit" value="Create" className="bg-gray-500 w-fit text-white py-2 px-3 rounded cursor-pointer mt-4" />
       </form>
+      <p id="success" className="invisible p-2 bg-green-600 text-white text-lg rounded">Record was added successfully</p>
+      {errors.map((err) => (
+        <p key={err} className="error text-red-600 text-lg">
+          {err}
+        </p>
+      ))}
     </div>
   );
 };
